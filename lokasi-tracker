@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pelacak Lokasi</title>
+</head>
+<body>
+  <h1>Pelacak Lokasi</h1>
+  <p id="status">Mengambil lokasi Anda...</p>
+  <p id="location"></p>
+
+  <script>
+    function tampilkanLokasi(posisi) {
+      const lat = posisi.coords.latitude;
+      const lon = posisi.coords.longitude;
+      document.getElementById('location').textContent = `Latitude: ${lat}, Longitude: ${lon}`;
+
+      // Contoh jika ingin mengirim ke server:
+      /*
+      fetch('https://server-anda.com/lokasi', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ latitude: lat, longitude: lon })
+      });
+      */
+    }
+
+    function tampilkanError(error) {
+      document.getElementById('status').textContent = "Akses lokasi ditolak atau tidak tersedia.";
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(tampilkanLokasi, tampilkanError);
+    } else {
+      document.getElementById('status').textContent = "Browser Anda tidak mendukung geolokasi.";
+    }
+  </script>
+</body>
+</html>
